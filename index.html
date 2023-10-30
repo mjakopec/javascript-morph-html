@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+</head>
+<body>
+<div style="padding-top:50px; padding-left:50px">
+<label id="1" data="name" onclick="convert(event,this.id)">Petar Pan</label>
+</div>
+<script>
+    function convert(e,element) {
+        var o =document.getElementById(element);
+        if (e.srcElement.nodeName==="LABEL") {
+            const komp_inp = document.createElement("input");
+            komp_inp.id = e.srcElement.id;
+            komp_inp.name = o.getAttribute("data");
+            komp_inp.type = "text";
+            komp_inp.value = o.innerText;
+            const komp_btn = document.createElement("input");
+            komp_btn.type  = "button";
+            komp_btn.value = "save";
+            komp_btn.onclick=function handleClick(event){save_btn(e,komp_inp);return};
+            
+            var par = o.parentNode;
+            par.removeChild(o);
+            par.appendChild(komp_inp);
+            par.appendChild(komp_btn);
+        }
+        return;
+    }
+    function save_btn(e,element){
+        var o = document.getElementById(element.id);
+        var par = o.parentNode;
+        while (par.lastElementChild) {
+            par.removeChild(par.lastElementChild);
+        }
+        const komp_lbl = document.createElement("label");
+        komp_lbl.setAttribute("id",element.id);
+        komp_lbl.setAttribute("data",element.name);
+        komp_lbl.onclick=function handleClick(event){convert(e,element.id);return};
+        komp_lbl.innerText=element.value;
+        par.appendChild(komp_lbl);
+        return;
+    }
+</script>
+</body>
+</html>
